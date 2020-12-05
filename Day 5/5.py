@@ -1,6 +1,4 @@
-import re
 seatIndex = {'F':0,'B':1,'L':0,'R':1}
-
 
 def part1(inputLines):
     highestSeatID=0
@@ -19,7 +17,7 @@ def part2(inputLines):#originally I found the missing value by hand
             seatID=2*seatID+seatIndex[ch]
         ids.append(seatID)
     ids.sort()
-    for i in range(0,len(ids)-1):
+    for i in range(len(ids)-1):
         if ids[i+1]-ids[i]>1:
             return ids[i]+1
 
