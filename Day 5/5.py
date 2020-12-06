@@ -1,9 +1,6 @@
-import re
-
 def part1(puzzleInput):
     highestSeatID=0
-    puzzleInput = re.sub('[FL]','0',puzzleInput)
-    puzzleInput = re.sub('[BR]','1',puzzleInput)
+    puzzleInput = puzzleInput.translate(str.maketrans('FLBR','0011'))
     for seat in puzzleInput.splitlines():
         seatID=int(seat,2)
         highestSeatID = max(highestSeatID,seatID)
@@ -12,8 +9,7 @@ def part1(puzzleInput):
 def part2(puzzleInput):#originally I found the missing value by hand
     (lowestID,highestID) = (2**8-1,0)
     sumIDs=0
-    puzzleInput = re.sub('[FL]','0',puzzleInput)
-    puzzleInput = re.sub('[BR]','1',puzzleInput)
+    puzzleInput = puzzleInput.translate(str.maketrans('FLBR','0011'))
     for seat in puzzleInput.splitlines():
         seatID=int(seat,2)
         sumIDs+=seatID
