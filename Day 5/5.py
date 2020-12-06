@@ -1,28 +1,33 @@
-seatIndex = {'F':0,'B':1,'L':0,'R':1}
+import re
 
-def part1(inputLines):
+def part1(puzzleInput):
     highestSeatID=0
-    for seat in inputLines:
-        seatID=0
-        for ch in seat:
-            seatID=2*seatID+seatIndex[ch]
+    puzzleInput = re.sub('[FL]','0',puzzleInput)
+    puzzleInput = re.sub('[BR]','1',puzzleInput)
+    for seat in puzzleInput.splitlines():
+        seatID=int(seat,2)
         highestSeatID = max(highestSeatID,seatID)
     return highestSeatID
 
-def part2(inputLines):#originally I found the missing value by hand
-    ids=[]
-    for seat in inputLines:
-        seatID=0
-        for ch in seat:
-            seatID=2*seatID+seatIndex[ch]
-        ids.append(seatID)
-    ids.sort()
-    for i in range(len(ids)-1):
-        if ids[i+1]-ids[i]>1:
-            return ids[i]+1
+def part2(puzzleInput):#originally I found the missing value by hand
+    (lowestID,highestID) = (2**8-1,0)
+    sumIDs=0
+    puzzleInput = re.sub('[FL]','0',puzzleInput)
+    puzzleInput = re.sub('[BR]','1',puzzleInput)
+    for seat in puzzleInput.splitlines():
+        seatID=int(seat,2)
+        sumIDs+=seatID
+        highestID = max(highestID,seatID)
+        lowestID = min(lowestID,seatID)
+    return ((highestID*(highestID+1))//2 -
+            (lowestID*(lowestID-1))//2     -
+            sumIDs)
+    #sum of elements in [lowest,highest] - sum of seen elements
+
+
 
 with open('5.in') as inputFile:
-    inputLines = inputFile.read().splitlines()
+    puzzleInput = inputFile.read()
     print('Solutions:')
-    print('highest seat ID:', part1(inputLines))
-    print('missing seat:', part2(inputLines))
+    print('highest seat ID:', part1(puzzleInput))
+    print('missing seat:', part2(puzzleInput))
